@@ -6,3 +6,15 @@
   border-width: 3px;
   border-color: #00b7ff;
 }
+
+.Button {
+  background-color: #4c63af;
+  border: none;
+  color: white;
+  padding: 1vh;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 1vh 1vh;
+  cursor: pointer;
+}
