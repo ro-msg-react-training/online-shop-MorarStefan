@@ -1,0 +1,15 @@
+@charset "utf-8";
+@import "variables";
+
+.table {
+  th {
+    background-color: $secondary-color;
+    color: white;
+  }
+  tr:nth-child(even) {
+    background-color: #f0ecec;
+  }
+  tr:hover {
+    background-color: #fad4d4;
+  }
+}

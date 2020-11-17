@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "./App.scss";
 import ProductInformation from "./components/ProductInformation";
 import Products from "./components/ProductListing";
 
@@ -55,11 +55,12 @@ const products = [
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">Online Shop</header>
-      <ProductInformation product={product} />
-      <Products products={products} />
-    </div>
+    <section className="hero is-primary">
+      <div className="App is-family-sans-serif">
+        <ProductInformation product={product} />
+        <Products products={products} />
+      </div>
+    </section>
   );
 }
 

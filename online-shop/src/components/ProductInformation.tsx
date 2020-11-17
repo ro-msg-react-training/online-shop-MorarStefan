@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/ProductInformation.css";
+import "../styles/ProductInformation.scss";
 
 interface Product {
   name: string;
@@ -22,13 +22,15 @@ function ProductInformation(props: { product: Product }) {
 
   return (
     <div className="ProductInformation">
-      <h1>{product.name}</h1>
       <div className="Name">Name: {product.name}</div>
       <div className="Category">Category: {product.category}</div>
       <div className="Price">Price: {product.price}</div>
       <div className="Description">Description: {product.description}</div>
       <div>
-        <button className="Button" onClick={() => setButton(!button)}>
+        <button
+          className="button is-primary is-light"
+          onClick={() => setButton(!button)}
+        >
           Show/Hide image
         </button>
       </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/ProductListing.css";
+import "../styles/ProductListing.scss";
 
 interface Product {
   id: number;
@@ -25,7 +25,7 @@ function ProductListing(props: { products: Array<Product> }) {
     <ListItem key={product.id} value={product} />
   ));
   return (
-    <table className="ProductListing">
+    <table className="table is-bordered is-fullwidth">
       <tr>
         <th>Product</th>
         <th>Category</th>
