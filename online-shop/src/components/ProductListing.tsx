@@ -15,6 +15,13 @@ function ListItem(props: { value: Product }) {
       <td>{product.name}</td>
       <td>{product.category}</td>
       <td>{product.price}</td>
+      <td>
+        <button className="button is-small">
+          <span className="icon has-text-info">
+            <i className="fas fa-2x fa-info-circle"></i>
+          </span>
+        </button>
+      </td>
     </tr>
   );
 }
@@ -30,6 +37,7 @@ function ProductListing(props: { products: Array<Product> }) {
         <th>Product</th>
         <th>Category</th>
         <th>Price</th>
+        <th>Details</th>
       </tr>
       {listItems}
     </table>
