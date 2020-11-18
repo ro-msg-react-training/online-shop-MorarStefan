@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.scss";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import ProductInformation from "./components/ProductInformation";
 import ProductListing from "./components/ProductListing";
 
@@ -13,6 +13,9 @@ function App() {
           <Switch>
             <Route exact path="/products" component={ProductListing} />
             <Route exact path="/products/:id" component={ProductInformation} />
+            <Route path="/">
+              <Redirect to={{ pathname: "/products" }} />
+            </Route>
           </Switch>
         </BrowserRouter>
       </div>
