@@ -72,32 +72,67 @@ const productDetails: Array<Product> = [
   },
 ];
 
+function ShoppingNotification(props: {
+  productName: string;
+  setButton: Function;
+}) {
+  return (
+    <div className="notification is-success has-text-weight-bold">
+      <button
+        className="delete"
+        onClick={() => props.setButton(false)}
+      ></button>
+      The product {props.productName} was added to the shopping cart!
+    </div>
+  );
+}
+
 function ProductInformation(props: { match: { params: { id: string } } }) {
   const product: Product = productDetails[parseInt(props.match.params.id, 10)];
-  const [button, setButton] = useState<boolean>(false);
+  const [addToCartButton, setAddToCartButton] = useState<boolean>(false);
 
-  let image;
-  if (!button) {
-    image = "";
+  let notification;
+  if (!addToCartButton) {
+    notification = "";
   } else {
-    image = <img className="Image" src={product.image} alt={"Name"} />;
+    notification = (
+      <ShoppingNotification
+        productName={product.name}
+        setButton={setAddToCartButton}
+      ></ShoppingNotification>
+    );
   }
 
   return (
-    <div className="ProductInformation">
-      <div className="Name">Name: {product.name}</div>
-      <div className="Category">Category: {product.category}</div>
-      <div className="Price">Price: {product.price}</div>
-      <div className="Description">Description: {product.description}</div>
-      <div>
-        <button
-          className="button is-primary is-light"
-          onClick={() => setButton(!button)}
-        >
-          Show/Hide image
-        </button>
+    <div>
+      <div className="ProductInformation">
+        <div className="columns">
+          <div className="column is-three-fifths">
+            <p className="mb-6">
+              <div className="Name">Name: {product.name}</div>
+              <div className="Category">Category: {product.category}</div>
+              <div className="Price">Price: {product.price}</div>
+              <div className="Description">
+                Description: {product.description}
+              </div>
+            </p>
+            <div>
+              <button
+                className="button is-primary has-text-weight-bold"
+                onClick={() => setAddToCartButton(true)}
+              >
+                Add to cart
+              </button>
+            </div>
+          </div>
+
+          <div className="column">
+            <img className="Image" src={product.image} alt={"Name"} />
+          </div>
+        </div>
       </div>
-      <div className="Image">{image}</div>
+
+      <div className="Notification">{notification}</div>
     </div>
   );
 }
