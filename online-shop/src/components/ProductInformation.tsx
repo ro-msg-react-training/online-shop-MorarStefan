@@ -10,6 +10,11 @@ interface Product {
   description: string;
 }
 
+interface ShoppingCart {
+  productId: number;
+  quantity: number;
+}
+
 const productDetails: Array<Product> = [
   {
     id: 0,
@@ -87,8 +92,32 @@ function ShoppingNotification(props: {
   );
 }
 
-function ProductInformation(props: { match: { params: { id: string } } }) {
-  const product: Product = productDetails[parseInt(props.match.params.id, 10)];
+function addToShoppingCart(
+  shoppingCart: Array<ShoppingCart>,
+  productId: number
+) {
+  let isNewItem: boolean = true;
+  for (const iterator of shoppingCart) {
+    if (iterator.productId === productId) {
+      iterator.quantity++;
+      isNewItem = false;
+      break;
+    }
+  }
+  if (isNewItem === true) {
+    const quantity: number = 1;
+    shoppingCart.push({ productId, quantity });
+  }
+}
+
+function ProductInformation(props: {
+  match: { params: { id: string } };
+  message: Array<ShoppingCart>;
+}) {
+  const shoppingCart: Array<ShoppingCart> = props.message;
+
+  const productId: number = parseInt(props.match.params.id, 10);
+  const product: Product = productDetails[productId];
   const [addToCartButton, setAddToCartButton] = useState<boolean>(false);
 
   let notification;
@@ -108,18 +137,22 @@ function ProductInformation(props: { match: { params: { id: string } } }) {
       <div className="ProductInformation">
         <div className="columns">
           <div className="column is-three-fifths">
-            <p className="mb-6">
+            <div className="mb-6">
               <div className="Name">Name: {product.name}</div>
               <div className="Category">Category: {product.category}</div>
               <div className="Price">Price: {product.price}</div>
               <div className="Description">
                 Description: {product.description}
               </div>
-            </p>
+            </div>
             <div>
               <button
                 className="button is-primary has-text-weight-bold"
-                onClick={() => setAddToCartButton(true)}
+                onClick={() => {
+                  addToShoppingCart(shoppingCart, productId);
+                  setAddToCartButton(true);
+                  console.log(shoppingCart);
+                }}
               >
                 Add to cart
               </button>

@@ -5,14 +5,26 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import ProductInformation from "./components/ProductInformation";
 import ProductListing from "./components/ProductListing";
 
+interface ShoppingCart {
+  productId: number;
+  quantity: number;
+}
+
 function App() {
+  const message: Array<ShoppingCart> = [];
   return (
     <section className="hero is-primary">
       <div className="App is-family-sans-serif">
         <BrowserRouter>
           <Switch>
             <Route exact path="/products" component={ProductListing} />
-            <Route exact path="/products/:id" component={ProductInformation} />
+            <Route
+              exact
+              path="/products/:id"
+              render={(match) => (
+                <ProductInformation {...match} message={message} />
+              )}
+            />
             <Route path="/">
               <Redirect to={{ pathname: "/products" }} />
             </Route>

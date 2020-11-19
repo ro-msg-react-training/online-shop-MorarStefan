@@ -76,13 +76,15 @@ function ProductListing() {
   ));
   return (
     <table className="table is-bordered is-fullwidth">
-      <tr>
-        <th>Product</th>
-        <th>Category</th>
-        <th>Price</th>
-        <th>Details</th>
-      </tr>
-      {listItems}
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>{listItems}</tbody>
     </table>
   );
 }
