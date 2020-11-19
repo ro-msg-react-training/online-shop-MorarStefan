@@ -6,7 +6,7 @@ import ProductInformation from "./components/ProductInformation";
 import ProductListing from "./components/ProductListing";
 
 interface ShoppingCart {
-  productId: number;
+  productId: string;
   quantity: number;
 }
 
