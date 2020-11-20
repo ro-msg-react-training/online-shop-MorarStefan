@@ -4,11 +4,8 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import ProductInformation from "./components/ProductInformation";
 import ProductListing from "./components/ProductListing";
-
-interface ShoppingCart {
-  productId: string;
-  quantity: number;
-}
+import ShoppingCartListing from "./components/ShoppingCartListing";
+import ShoppingCart from "./interfaces/ShoppingCart";
 
 function App() {
   const message: Array<ShoppingCart> = [];
@@ -23,6 +20,13 @@ function App() {
               path="/products/:id"
               render={(match) => (
                 <ProductInformation {...match} message={message} />
+              )}
+            />
+            <Route
+              exact
+              path="/shoppingCart"
+              render={(match) => (
+                <ShoppingCartListing {...match} message={message} />
               )}
             />
             <Route path="/">

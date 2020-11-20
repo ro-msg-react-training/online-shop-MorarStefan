@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../styles/ProductListing.scss";
+import "../styles/styles.scss";
 import { useHistory } from "react-router-dom";
 import Product from "../interfaces/Product";
 import Axios from "axios";
@@ -48,17 +48,20 @@ function ProductListing() {
     <ListItem key={product._id} value={product} />
   ));
   return (
-    <table className="table is-bordered is-fullwidth">
-      <thead>
-        <tr>
-          <th>Product</th>
-          <th>Category</th>
-          <th>Price</th>
-          <th>Details</th>
-        </tr>
-      </thead>
-      <tbody>{listItems}</tbody>
-    </table>
+    <div className="frame">
+      <h1 className="Header is-size-4 m-5">Products</h1>
+      <table className="table is-bordered is-fullwidth mb-5">
+        <thead>
+          <tr>
+            <th className="has-text-white">Product</th>
+            <th className="has-text-white">Category</th>
+            <th className="has-text-white">Price</th>
+            <th className="has-text-white">Details</th>
+          </tr>
+        </thead>
+        <tbody>{listItems}</tbody>
+      </table>
+    </div>
   );
 }
 

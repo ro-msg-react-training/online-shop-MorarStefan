@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "../styles/ProductInformation.scss";
+import "../styles/styles.scss";
+import { useHistory } from "react-router-dom";
 import ProductDetail from "../interfaces/ProductDetail";
+import ShoppingCart from "../interfaces/ShoppingCart";
 import Axios from "axios";
 import BACKEND_API from "../constants/index";
-
-interface ShoppingCart {
-  productId: string;
-  quantity: number;
-}
 
 function ShoppingNotification(props: {
   productName: string;
@@ -26,11 +23,11 @@ function ShoppingNotification(props: {
 
 function addToShoppingCart(
   shoppingCart: Array<ShoppingCart>,
-  productId: string
+  product: ProductDetail
 ) {
   let isNewItem: boolean = true;
   for (const iterator of shoppingCart) {
-    if (iterator.productId === productId) {
+    if (iterator.productId === product._id) {
       iterator.quantity++;
       isNewItem = false;
       break;
@@ -38,7 +35,13 @@ function addToShoppingCart(
   }
   if (isNewItem === true) {
     const quantity: number = 1;
-    shoppingCart.push({ productId, quantity });
+    shoppingCart.push({
+      productId: product._id,
+      productName: product.name,
+      categoryName: product.category.name,
+      price: product.price,
+      quantity: quantity,
+    });
   }
 }
 
@@ -65,6 +68,7 @@ function ProductInformation(props: {
     imageUrl: "",
   });
   const [imageUrl, setImageUrl] = useState<string>("");
+  const history = useHistory();
 
   useEffect(() => {
     let unmounted = false;
@@ -97,10 +101,11 @@ function ProductInformation(props: {
 
   return (
     <div>
-      <div className="ProductInformation">
+      <div className="frame">
         <div className="columns">
           <div className="column is-three-fifths">
             <div className="mb-6">
+              <h1 className="Header is-size-4 mb-5">{product.name}</h1>
               <div className="Name">Name: {product.name}</div>
               <div className="Category">Category: {product.category.name}</div>
               <div className="Supplier">Supplier: {product.supplier.name}</div>
@@ -112,14 +117,20 @@ function ProductInformation(props: {
             </div>
             <div>
               <button
-                className="button is-primary has-text-weight-bold"
+                className="button is-primary has-text-weight-bold mr-4"
                 onClick={() => {
-                  addToShoppingCart(shoppingCart, productId);
+                  addToShoppingCart(shoppingCart, product);
                   setAddToCartButton(true);
                   console.log(shoppingCart);
                 }}
               >
                 Add to cart
+              </button>
+              <button
+                className="button is-primary has-text-weight-bold mr-4"
+                onClick={() => history.push("/shoppingCart")}
+              >
+                Show cart
               </button>
             </div>
           </div>
