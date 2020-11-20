@@ -49,7 +49,7 @@ function ProductListing() {
   ));
   return (
     <div className="frame">
-      <h1 className="Header is-size-4 m-5">Products</h1>
+      <h1 className="Header is-size-4 m-5 has-text-weight-bold">Products</h1>
       <table className="table is-bordered is-fullwidth mb-5">
         <thead>
           <tr>

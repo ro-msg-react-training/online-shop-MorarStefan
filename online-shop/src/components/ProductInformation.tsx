@@ -105,7 +105,7 @@ function ProductInformation(props: {
         <div className="columns">
           <div className="column is-three-fifths">
             <div className="mb-6">
-              <h1 className="Header is-size-4 mb-5">{product.name}</h1>
+              <h1 className="Header is-size-4 mb-5 has-text-weight-bold">{product.name}</h1>
               <div className="Name">Name: {product.name}</div>
               <div className="Category">Category: {product.category.name}</div>
               <div className="Supplier">Supplier: {product.supplier.name}</div>
@@ -131,6 +131,18 @@ function ProductInformation(props: {
                 onClick={() => history.push("/shoppingCart")}
               >
                 Show cart
+              </button>
+              <button
+                className="button is-primary is-light has-text-weight-bold mr-4"
+                onClick={() => {
+                  async function deleteFromCatalogue(productId: string) {
+                    await Axios.delete(BACKEND_API + "products/" + productId);
+                  }
+                  deleteFromCatalogue(productId);
+                  history.push("/products");
+                }}
+              >
+                Remove from catalogue
               </button>
             </div>
           </div>

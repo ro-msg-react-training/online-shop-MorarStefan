@@ -22,7 +22,7 @@ function ShoppingCartListing(props: { message: Array<ShoppingCart> }) {
   ));
   return (
     <div className="frame">
-      <h1 className="Header is-size-4 m-5">Shopping Cart</h1>
+      <h1 className="Header is-size-4 m-5 has-text-weight-bold">Shopping Cart</h1>
       <table className="table is-bordered is-fullwidth">
         <thead>
           <tr>
