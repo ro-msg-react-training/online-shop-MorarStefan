@@ -105,7 +105,9 @@ function ProductInformation(props: {
         <div className="columns">
           <div className="column is-three-fifths">
             <div className="mb-6">
-              <h1 className="Header is-size-4 mb-5 has-text-weight-bold">{product.name}</h1>
+              <h1 className="Header is-size-4 mb-5 has-text-weight-bold">
+                {product.name}
+              </h1>
               <div className="Name">Name: {product.name}</div>
               <div className="Category">Category: {product.category.name}</div>
               <div className="Supplier">Supplier: {product.supplier.name}</div>
