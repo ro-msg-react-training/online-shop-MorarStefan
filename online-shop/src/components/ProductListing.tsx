@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import Product from "../interfaces/Product";
 import Axios from "axios";
 import BACKEND_API from "../constants/index";
+import ProductEditView from "./ProductEditView";
 
 function ListItem(props: { value: Product }) {
   const product = props.value;
@@ -29,6 +30,7 @@ function ListItem(props: { value: Product }) {
 
 function ProductListing() {
   const [products, setProducts] = useState<Array<Product>>([]);
+  const [openCreateView, setOpenCreateView] = useState<boolean>(false);
 
   useEffect(() => {
     let unmounted = false;
@@ -47,6 +49,16 @@ function ProductListing() {
   const listItems = products.map((product) => (
     <ListItem key={product._id} value={product} />
   ));
+
+  let createView;
+  if (!openCreateView) {
+    createView = "";
+  } else {
+    createView = (
+      <ProductEditView title="Add Product" setOpenView={setOpenCreateView} />
+    );
+  }
+
   return (
     <div className="frame">
       <h1 className="Header is-size-4 m-5 has-text-weight-bold">Products</h1>
@@ -61,6 +73,15 @@ function ProductListing() {
         </thead>
         <tbody>{listItems}</tbody>
       </table>
+      <button
+        className="button is-primary has-text-weight-bold mr-4"
+        onClick={() => {
+          setOpenCreateView(true);
+        }}
+      >
+        Add
+      </button>
+      <div className="CreateView">{createView}</div>
     </div>
   );
 }

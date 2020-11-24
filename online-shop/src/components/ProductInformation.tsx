@@ -5,6 +5,7 @@ import ProductDetail from "../interfaces/ProductDetail";
 import ShoppingCart from "../interfaces/ShoppingCart";
 import Axios from "axios";
 import BACKEND_API from "../constants/index";
+import ProductEditView from "./ProductEditView";
 
 function ShoppingNotification(props: {
   productName: string;
@@ -69,6 +70,7 @@ function ProductInformation(props: {
   });
   const [imageUrl, setImageUrl] = useState<string>("");
   const history = useHistory();
+  const [openEditView, setOpenEditView] = useState<boolean>(false);
 
   useEffect(() => {
     let unmounted = false;
@@ -95,7 +97,16 @@ function ProductInformation(props: {
       <ShoppingNotification
         productName={product.name}
         setButton={setAddToCartButton}
-      ></ShoppingNotification>
+      />
+    );
+  }
+
+  let editView;
+  if (!openEditView) {
+    editView = "";
+  } else {
+    editView = (
+      <ProductEditView title="Edit Product" setOpenView={setOpenEditView} />
     );
   }
 
@@ -146,6 +157,14 @@ function ProductInformation(props: {
               >
                 Remove from catalogue
               </button>
+              <button
+                className="button is-primary is-light has-text-weight-bold mr-4"
+                onClick={() => {
+                  setOpenEditView(true);
+                }}
+              >
+                Edit
+              </button>
             </div>
           </div>
 
@@ -156,6 +175,7 @@ function ProductInformation(props: {
       </div>
 
       <div className="Notification">{notification}</div>
+      <div className="EditView">{editView}</div>
     </div>
   );
 }
