@@ -55,7 +55,7 @@ function ProductListing() {
     createView = "";
   } else {
     createView = (
-      <ProductEditView title="Add Product" setOpenView={setOpenCreateView} />
+      <ProductEditView id="" type="Add" setOpenView={setOpenCreateView} />
     );
   }
 

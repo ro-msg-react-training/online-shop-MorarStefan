@@ -60,6 +60,7 @@ function ProductInformation(props: {
     description: "",
     category: {
       name: "",
+      description: "",
     },
     supplier: {
       name: "",
@@ -106,7 +107,11 @@ function ProductInformation(props: {
     editView = "";
   } else {
     editView = (
-      <ProductEditView title="Edit Product" setOpenView={setOpenEditView} />
+      <ProductEditView
+        id={product._id}
+        type="Edit"
+        setOpenView={setOpenEditView}
+      />
     );
   }
 
