@@ -6,6 +6,8 @@ import Category from "../interfaces/Category";
 import Supplier from "../interfaces/Supplier";
 import ProductDetail from "../interfaces/ProductDetail";
 import PostProductDetail from "../interfaces/PostProductDetail";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../store/actions/productActions";
 
 function CategoryOption(props: { value: Category }) {
   return <option>{props.value.name}</option>;
@@ -142,6 +144,7 @@ function ProductEditView(props: {
     };
   }, []);
 
+  const dispatch = useDispatch();
   const categoryOptions = categories.map((category) => (
     <CategoryOption key={category._id} value={category} />
   ));
@@ -252,10 +255,6 @@ function ProductEditView(props: {
               await Axios.put(BACKEND_API + "products", product);
             }
 
-            async function postProduct(product: PostProductDetail) {
-              await Axios.post(BACKEND_API + "products", product);
-            }
-
             if (isValidForm(productName, price, weight, description)) {
               if (props.type === "Edit") {
                 const product: ProductDetail = createUpdatedProduct(
@@ -281,7 +280,7 @@ function ProductEditView(props: {
                   categories
                 );
                 console.log(product);
-                postProduct(product);
+                dispatch(addProduct(product));
               }
               setErrorMessage("");
               props.setOpenView(false);
