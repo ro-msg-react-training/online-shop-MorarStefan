@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import "../styles/styles.scss";
 import { useHistory } from "react-router-dom";
 import Product from "../interfaces/Product";
-import Axios from "axios";
-import BACKEND_API from "../constants/index";
 import ProductEditView from "./ProductEditView";
+import { readProducts } from "../store/actions/productActions";
+import { useDispatch, useSelector } from "react-redux";
 
 function ListItem(props: { value: Product }) {
   const product = props.value;
@@ -29,24 +29,16 @@ function ListItem(props: { value: Product }) {
 }
 
 function ProductListing() {
-  const [products, setProducts] = useState<Array<Product>>([]);
   const [openCreateView, setOpenCreateView] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    let unmounted = false;
-    async function getProducts() {
-      const result = await Axios.get(BACKEND_API + "products");
-      if (!unmounted) {
-        setProducts(result.data);
-      }
-    }
-    getProducts();
-    return () => {
-      unmounted = true;
-    };
-  }, []);
+    dispatch(readProducts());
+  }, [dispatch]);
 
-  const listItems = products.map((product) => (
+  const productsInformation: any = useSelector((state: any) => state.products);
+
+  const listItems = productsInformation.products.map((product: Product) => (
     <ListItem key={product._id} value={product} />
   ));
 
