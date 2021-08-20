@@ -3,8 +3,9 @@ import "../styles/styles.scss";
 import ShoppingCart from "../interfaces/ShoppingCart";
 import OrderProduct from "../interfaces/OrderProduct";
 import Order from "../interfaces/Order";
-import { createOrder } from "../services/orderService";
 import { DEFAULT_CUSTOMER_ID, DEFAULT_DELIVERY_ADDRESS_ID } from "../constants";
+import { useDispatch, useSelector } from "react-redux";
+import { submitOrder } from "../store/actions/shoppingCartActions";
 
 function prepareOrder(shoppingCart: Array<ShoppingCart>) {
   const orderProducts: Array<OrderProduct> = [];
@@ -48,13 +49,14 @@ function OrderNotification(props: { setButton: Function }) {
   );
 }
 
-function ShoppingCartListing(props: { message: Array<ShoppingCart> }) {
+function ShoppingCartListing() {
   const [createOrderButton, setCreateOrderButton] = useState<boolean>(false);
-  const [shoppingCart, setShoppingCart] = useState<Array<ShoppingCart>>(
-    props.message
-  );
-  const listItems = shoppingCart.map((product) => (
-    <ListItem key={product.productId} value={product} />
+
+  const dispatch = useDispatch();
+  const orderInformation: any = useSelector((state: any) => state.shoppingCart);
+
+  const listItems = orderInformation.shoppingCart.map((item: ShoppingCart) => (
+    <ListItem key={item.productId} value={item} />
   ));
 
   let notification;
@@ -84,11 +86,9 @@ function ShoppingCartListing(props: { message: Array<ShoppingCart> }) {
         <button
           className="button is-primary has-text-weight-bold m-5"
           onClick={() => {
-            const order: Order = prepareOrder(shoppingCart);
+            const order: Order = prepareOrder(orderInformation.shoppingCart);
             setCreateOrderButton(true);
-            setShoppingCart([]);
-            props.message.splice(0, props.message.length);
-            createOrder(order);
+            dispatch(submitOrder(order));
           }}
         >
           Checkout

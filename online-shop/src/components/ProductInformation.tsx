@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/styles.scss";
 import { useHistory } from "react-router-dom";
-import ProductDetail from "../interfaces/ProductDetail";
-import ShoppingCart from "../interfaces/ShoppingCart";
 import ProductEditView from "./ProductEditView";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,6 +8,7 @@ import {
   readProduct,
 } from "../store/actions/productInformationActions";
 import { getProductImageUrl } from "../services/productService";
+import { addItem } from "../store/actions/shoppingCartActions";
 
 function ShoppingNotification(props: {
   productName: string;
@@ -26,36 +25,7 @@ function ShoppingNotification(props: {
   );
 }
 
-function addToShoppingCart(
-  shoppingCart: Array<ShoppingCart>,
-  product: ProductDetail
-) {
-  let isNewItem: boolean = true;
-  for (const iterator of shoppingCart) {
-    if (iterator.productId === product._id) {
-      iterator.quantity++;
-      isNewItem = false;
-      break;
-    }
-  }
-  if (isNewItem === true) {
-    const quantity: number = 1;
-    shoppingCart.push({
-      productId: product._id,
-      productName: product.name,
-      categoryName: product.category.name,
-      price: product.price,
-      quantity: quantity,
-    });
-  }
-}
-
-function ProductInformation(props: {
-  match: { params: { id: string } };
-  message: Array<ShoppingCart>;
-}) {
-  const shoppingCart: Array<ShoppingCart> = props.message;
-
+function ProductInformation(props: { match: { params: { id: string } } }) {
   const productId: string = props.match.params.id;
   const [addToCartButton, setAddToCartButton] = useState<boolean>(false);
 
@@ -138,9 +108,16 @@ function ProductInformation(props: {
               <button
                 className="button is-primary has-text-weight-bold mr-4"
                 onClick={() => {
-                  addToShoppingCart(shoppingCart, productInformation.product);
+                  dispatch(
+                    addItem({
+                      productId: productInformation.product._id,
+                      productName: productInformation.product.name,
+                      categoryName: productInformation.product.category.name,
+                      price: productInformation.product.price,
+                      quantity: 1,
+                    })
+                  );
                   setAddToCartButton(true);
-                  console.log(shoppingCart);
                 }}
               >
                 Add to cart
