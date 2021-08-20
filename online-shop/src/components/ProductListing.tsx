@@ -3,7 +3,7 @@ import "../styles/styles.scss";
 import { useHistory } from "react-router-dom";
 import Product from "../interfaces/Product";
 import ProductEditView from "./ProductEditView";
-import { readProducts } from "../store/actions/productActions";
+import { readProducts } from "../store/actions/productListActions";
 import { useDispatch, useSelector } from "react-redux";
 
 function ListItem(props: { value: Product }) {
@@ -36,9 +36,9 @@ function ProductListing() {
     dispatch(readProducts());
   }, [dispatch]);
 
-  const productsInformation: any = useSelector((state: any) => state.products);
+  const productList: any = useSelector((state: any) => state.productList);
 
-  const listItems = productsInformation.products.map((product: Product) => (
+  const listItems = productList.products.map((product: Product) => (
     <ListItem key={product._id} value={product} />
   ));
 

@@ -3,9 +3,13 @@ import "../styles/styles.scss";
 import { useHistory } from "react-router-dom";
 import ProductDetail from "../interfaces/ProductDetail";
 import ShoppingCart from "../interfaces/ShoppingCart";
-import Axios from "axios";
-import BACKEND_API from "../constants/index";
 import ProductEditView from "./ProductEditView";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteProduct,
+  readProduct,
+} from "../store/actions/productInformationActions";
+import { getProductImageUrl } from "../services/productService";
 
 function ShoppingNotification(props: {
   productName: string;
@@ -54,41 +58,20 @@ function ProductInformation(props: {
 
   const productId: string = props.match.params.id;
   const [addToCartButton, setAddToCartButton] = useState<boolean>(false);
-  const [product, setProduct] = useState<ProductDetail>({
-    _id: "",
-    name: "",
-    description: "",
-    category: {
-      name: "",
-      description: "",
-    },
-    supplier: {
-      name: "",
-    },
-    price: 0,
-    weight: 0,
-    imageUrl: "",
-  });
+
   const [imageUrl, setImageUrl] = useState<string>("");
   const history = useHistory();
   const [openEditView, setOpenEditView] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    let unmounted = false;
-    async function getProduct() {
-      const productResult = await Axios.get(
-        BACKEND_API + "products/" + productId
-      );
-      if (!unmounted) {
-        setProduct(productResult.data);
-        setImageUrl(BACKEND_API + "products/" + productId + "/images");
-      }
-    }
-    getProduct();
-    return () => {
-      unmounted = true;
-    };
-  }, [productId]);
+    setImageUrl(getProductImageUrl(productId));
+    dispatch(readProduct(productId));
+  }, [dispatch, productId]);
+
+  const productInformation: any = useSelector(
+    (state: any) => state.productInformation
+  );
 
   let notification;
   if (!addToCartButton) {
@@ -96,7 +79,7 @@ function ProductInformation(props: {
   } else {
     notification = (
       <ShoppingNotification
-        productName={product.name}
+        productName={productInformation.product.name}
         setButton={setAddToCartButton}
       />
     );
@@ -108,7 +91,7 @@ function ProductInformation(props: {
   } else {
     editView = (
       <ProductEditView
-        id={product._id}
+        id={productInformation.product._id}
         type="Edit"
         setOpenView={setOpenEditView}
       />
@@ -120,24 +103,42 @@ function ProductInformation(props: {
       <div className="frame">
         <div className="columns">
           <div className="column is-three-fifths">
-            <div className="mb-6">
-              <h1 className="Header is-size-4 mb-5 has-text-weight-bold">
-                {product.name}
-              </h1>
-              <div className="Name">Name: {product.name}</div>
-              <div className="Category">Category: {product.category.name}</div>
-              <div className="Supplier">Supplier: {product.supplier.name}</div>
-              <div className="Price">Price: {product.price} €</div>
-              <div className="Weight">Weight: {product.weight} kg</div>
-              <div className="Description">
-                Description: {product.description}
+            {!productInformation.product ? (
+              <p>Requesting product...</p>
+            ) : productInformation.loading ? (
+              <p>Loading product...</p>
+            ) : productInformation.error ? (
+              <p>Error</p>
+            ) : (
+              <div className="mb-6">
+                <h1 className="Header is-size-4 mb-5 has-text-weight-bold">
+                  {productInformation.product.name}
+                </h1>
+                <div className="Name">
+                  Name: {productInformation.product.name}
+                </div>
+                <div className="Category">
+                  Category: {productInformation.product.category.name}
+                </div>
+                <div className="Supplier">
+                  Supplier: {productInformation.product.supplier.name}
+                </div>
+                <div className="Price">
+                  Price: {productInformation.product.price} €
+                </div>
+                <div className="Weight">
+                  Weight: {productInformation.product.weight} kg
+                </div>
+                <div className="Description">
+                  Description: {productInformation.product.description}
+                </div>
               </div>
-            </div>
+            )}
             <div>
               <button
                 className="button is-primary has-text-weight-bold mr-4"
                 onClick={() => {
-                  addToShoppingCart(shoppingCart, product);
+                  addToShoppingCart(shoppingCart, productInformation.product);
                   setAddToCartButton(true);
                   console.log(shoppingCart);
                 }}
@@ -153,10 +154,7 @@ function ProductInformation(props: {
               <button
                 className="button is-primary is-light has-text-weight-bold mr-4"
                 onClick={() => {
-                  async function deleteFromCatalogue(productId: string) {
-                    await Axios.delete(BACKEND_API + "products/" + productId);
-                  }
-                  deleteFromCatalogue(productId);
+                  dispatch(deleteProduct(productInformation.product._id));
                   history.push("/products");
                 }}
               >

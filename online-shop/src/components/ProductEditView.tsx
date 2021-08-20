@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "../styles/styles.scss";
 import Axios from "axios";
-import BACKEND_API from "../constants/index";
+import { BACKEND_API } from "../constants";
 import Category from "../interfaces/Category";
 import Supplier from "../interfaces/Supplier";
 import ProductDetail from "../interfaces/ProductDetail";
 import PostProductDetail from "../interfaces/PostProductDetail";
 import { useDispatch } from "react-redux";
-import { addProduct } from "../store/actions/productActions";
+import { addProduct } from "../store/actions/productListActions";
+import { editProduct } from "../store/actions/productInformationActions";
 
 function CategoryOption(props: { value: Category }) {
   return <option>{props.value.name}</option>;
@@ -126,6 +127,8 @@ function ProductEditView(props: {
 
   const [errorMessage, setErrorMessage] = React.useState<string>("");
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     let unmounted = false;
     async function getCategories() {
@@ -144,7 +147,6 @@ function ProductEditView(props: {
     };
   }, []);
 
-  const dispatch = useDispatch();
   const categoryOptions = categories.map((category) => (
     <CategoryOption key={category._id} value={category} />
   ));
@@ -251,10 +253,6 @@ function ProductEditView(props: {
         <button
           className="button is-primary has-text-weight-bold mr-4"
           onClick={() => {
-            async function putProduct(product: ProductDetail) {
-              await Axios.put(BACKEND_API + "products", product);
-            }
-
             if (isValidForm(productName, price, weight, description)) {
               if (props.type === "Edit") {
                 const product: ProductDetail = createUpdatedProduct(
@@ -267,8 +265,7 @@ function ProductEditView(props: {
                   supplierName,
                   categories
                 );
-                console.log(product);
-                putProduct(product);
+                dispatch(editProduct(product));
               } else {
                 const product: PostProductDetail = createNewProduct(
                   productName,
@@ -279,7 +276,6 @@ function ProductEditView(props: {
                   supplierName,
                   categories
                 );
-                console.log(product);
                 dispatch(addProduct(product));
               }
               setErrorMessage("");

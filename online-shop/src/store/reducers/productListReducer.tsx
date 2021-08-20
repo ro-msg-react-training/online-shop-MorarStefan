@@ -7,7 +7,7 @@ import {
   ADD_PRODUCT_REQUEST,
   ADD_PRODUCT_SUCCESS,
   ADD_PRODUCT_ERROR,
-} from "../actions/productActions";
+} from "../actions/productListActions";
 
 const initialState = {
   products: [],
@@ -15,7 +15,7 @@ const initialState = {
   error: null,
 };
 
-export default function productReducer(
+export default function productListReducer(
   state = initialState,
   action: {
     type: string;

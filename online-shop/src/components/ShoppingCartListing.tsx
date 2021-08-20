@@ -3,10 +3,10 @@ import "../styles/styles.scss";
 import ShoppingCart from "../interfaces/ShoppingCart";
 import OrderProduct from "../interfaces/OrderProduct";
 import Order from "../interfaces/Order";
-import Axios from "axios";
-import BACKEND_API from "../constants/index";
+import { createOrder } from "../services/orderService";
+import { DEFAULT_CUSTOMER_ID, DEFAULT_DELIVERY_ADDRESS_ID } from "../constants";
 
-function createOrder(shoppingCart: Array<ShoppingCart>) {
+function prepareOrder(shoppingCart: Array<ShoppingCart>) {
   const orderProducts: Array<OrderProduct> = [];
   for (const iterator of shoppingCart) {
     orderProducts.push({
@@ -16,8 +16,8 @@ function createOrder(shoppingCart: Array<ShoppingCart>) {
   }
   const order: Order = {
     createdAt: new Date().toString(),
-    customerId: "5f9fcb8e7bdb2732ac6fc10a",
-    deliveryAddressId: "5fa0ff2d7c5b6910a84f3ee2",
+    customerId: DEFAULT_CUSTOMER_ID,
+    deliveryAddressId: DEFAULT_DELIVERY_ADDRESS_ID,
     products: orderProducts,
   };
 
@@ -84,15 +84,11 @@ function ShoppingCartListing(props: { message: Array<ShoppingCart> }) {
         <button
           className="button is-primary has-text-weight-bold m-5"
           onClick={() => {
-            const order: Order = createOrder(shoppingCart);
-            async function postOrder(order: Order) {
-              await Axios.post(BACKEND_API + "orders", order);
-            }
-            console.log(order);
+            const order: Order = prepareOrder(shoppingCart);
             setCreateOrderButton(true);
             setShoppingCart([]);
             props.message.splice(0, props.message.length);
-            postOrder(order);
+            createOrder(order);
           }}
         >
           Checkout
