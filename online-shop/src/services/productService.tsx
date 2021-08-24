@@ -5,7 +5,7 @@ import ProductDetail from "../interfaces/ProductDetail";
 
 export const getProducts = async () => {
   return axios
-    .get(`${BACKEND_API}products`)
+    .get(`${BACKEND_API}/products`)
     .then((result) => {
       return result.data;
     })
@@ -16,7 +16,7 @@ export const getProducts = async () => {
 
 export const getProduct = async (id: string) => {
   return axios
-    .get(`${BACKEND_API}products/${id}`)
+    .get(`${BACKEND_API}/products/${id}`)
     .then((result) => {
       return result.data;
     })
@@ -27,7 +27,7 @@ export const getProduct = async (id: string) => {
 
 export const createProduct = async (product: PostProductDetail) => {
   return axios
-    .post(`${BACKEND_API}products`, product)
+    .post(`${BACKEND_API}/products`, product)
     .then((result) => {
       return result.data;
     })
@@ -38,7 +38,7 @@ export const createProduct = async (product: PostProductDetail) => {
 
 export const updateProduct = async (product: ProductDetail) => {
   return axios
-    .put(`${BACKEND_API}products`, product)
+    .put(`${BACKEND_API}/products`, product)
     .then((result) => {
       return result.data;
     })
@@ -49,7 +49,7 @@ export const updateProduct = async (product: ProductDetail) => {
 
 export const removeProduct = async (id: string) => {
   return axios
-    .delete(`${BACKEND_API}products/${id}`)
+    .delete(`${BACKEND_API}/products/${id}`)
     .then((result) => {
       return result.data;
     })
@@ -59,5 +59,5 @@ export const removeProduct = async (id: string) => {
 };
 
 export const getProductImageUrl = (id: string) => {
-  return `${BACKEND_API}products/${id}/images`;
+  return `${BACKEND_API}/products/${id}/images`;
 };

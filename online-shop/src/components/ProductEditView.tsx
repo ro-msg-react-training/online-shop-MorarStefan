@@ -132,8 +132,8 @@ function ProductEditView(props: {
   useEffect(() => {
     let unmounted = false;
     async function getCategories() {
-      const categoryResult = await Axios.get(BACKEND_API + "categories");
-      const supplierResult = await Axios.get(BACKEND_API + "suppliers");
+      const categoryResult = await Axios.get(`${BACKEND_API}/categories`);
+      const supplierResult = await Axios.get(`${BACKEND_API}/suppliers`);
       if (!unmounted) {
         setCategories(categoryResult.data);
         setSuppliers(supplierResult.data);

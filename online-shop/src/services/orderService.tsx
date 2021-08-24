@@ -4,7 +4,7 @@ import Order from "../interfaces/Order";
 
 export const createOrder = async (order: Order) => {
   return axios
-    .post(`${BACKEND_API}orders`, order)
+    .post(`${BACKEND_API}/orders`, order)
     .then((result) => {
       return result.data;
     })
