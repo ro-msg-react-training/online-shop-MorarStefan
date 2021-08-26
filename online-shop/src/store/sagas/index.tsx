@@ -5,6 +5,7 @@ import {
   watchReadProduct,
 } from "./productInformationSaga";
 import { watchAddProduct, watchReadProducts } from "./productListSaga";
+import { watchReadSales } from "./salesFiguresSaga";
 import { watchSubmitOrder } from "./shoppingCartSaga";
 
 export default function* rootSaga() {
@@ -15,5 +16,6 @@ export default function* rootSaga() {
     watchEditProduct(),
     watchDeleteProduct(),
     watchSubmitOrder(),
+    watchReadSales(),
   ]);
 }

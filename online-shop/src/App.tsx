@@ -7,6 +7,7 @@ import ProductListing from "./components/ProductListing";
 import ShoppingCartListing from "./components/ShoppingCartListing";
 import { Provider } from "react-redux";
 import store from "./store";
+import SalesFigures from "./components/SalesFigures";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
                 path="/shoppingCart"
                 component={ShoppingCartListing}
               />
+              <Route exact path="/sales" component={SalesFigures} />
               <Route path="/">
                 <Redirect to={{ pathname: "/products" }} />
               </Route>

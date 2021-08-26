@@ -33,6 +33,7 @@ function ListItem(props: { value: Product }) {
 function ProductListing() {
   const [openCreateView, setOpenCreateView] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(readProducts());
@@ -82,6 +83,14 @@ function ProductListing() {
         }}
       >
         Add
+      </button>
+      <button
+        className="button is-primary is-light has-text-weight-bold mr-4"
+        onClick={() => {
+          history.push("/sales");
+        }}
+      >
+        See sales
       </button>
       <div className="CreateView">{createView}</div>
     </div>
