@@ -5,6 +5,8 @@ import Product from "../interfaces/Product";
 import ProductEditView from "./ProductEditView";
 import { readProducts } from "../store/actions/productListActions";
 import { useDispatch, useSelector } from "react-redux";
+import { compose, withState } from "recompose";
+import { withSpinnerWhileLoading } from "./LoadingIndicator";
 
 function ListItem(props: { value: Product }) {
   const product = props.value;
@@ -38,6 +40,13 @@ function ProductListing() {
 
   const productList: any = useSelector((state: any) => state.productList);
 
+  const enhance = compose(
+    withState("loading", "setLoading", productList.loading),
+    withSpinnerWhileLoading
+  );
+
+  const Spinner = enhance(() => <div className="Spinner"></div>);
+
   const listItems = productList.products.map((product: Product) => (
     <ListItem key={product._id} value={product} />
   ));
@@ -54,6 +63,7 @@ function ProductListing() {
   return (
     <div className="frame">
       <h1 className="Header is-size-4 m-5 has-text-weight-bold">Products</h1>
+      <Spinner />
       <table className="table is-bordered is-fullwidth mb-5">
         <thead>
           <tr>

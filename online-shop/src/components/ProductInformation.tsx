@@ -9,6 +9,8 @@ import {
 } from "../store/actions/productInformationActions";
 import { getProductImageUrl } from "../services/productService";
 import { addItem } from "../store/actions/shoppingCartActions";
+import { compose, withState } from "recompose";
+import { withSpinnerWhileLoading } from "./LoadingIndicator";
 
 function ShoppingNotification(props: {
   productName: string;
@@ -43,6 +45,13 @@ function ProductInformation(props: { match: { params: { id: string } } }) {
     (state: any) => state.productInformation
   );
 
+  const enhance = compose(
+    withState("loading", "setLoading", productInformation.loading),
+    withSpinnerWhileLoading
+  );
+
+  const Spinner = enhance(() => <div className="Spinner"></div>);
+
   let notification;
   if (!addToCartButton) {
     notification = "";
@@ -71,12 +80,13 @@ function ProductInformation(props: { match: { params: { id: string } } }) {
   return (
     <div>
       <div className="frame">
+        <Spinner />
         <div className="columns">
           <div className="column is-three-fifths">
             {!productInformation.product ? (
-              <p>Requesting product...</p>
+              <p></p>
             ) : productInformation.loading ? (
-              <p>Loading product...</p>
+              <p></p>
             ) : productInformation.error ? (
               <p>Error</p>
             ) : (
