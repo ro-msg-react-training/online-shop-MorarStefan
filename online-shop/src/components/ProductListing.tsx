@@ -64,7 +64,6 @@ function ProductListing() {
   return (
     <div className="frame">
       <h1 className="Header is-size-4 m-5 has-text-weight-bold">Products</h1>
-      <Spinner />
       <table className="table is-bordered is-fullwidth mb-5">
         <thead>
           <tr>
@@ -76,6 +75,7 @@ function ProductListing() {
         </thead>
         <tbody>{listItems}</tbody>
       </table>
+      <Spinner />
       <button
         className="button is-primary has-text-weight-bold mr-4"
         onClick={() => {

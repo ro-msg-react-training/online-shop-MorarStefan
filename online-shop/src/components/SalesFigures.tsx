@@ -2,9 +2,11 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { compose, withState } from "recompose";
 import CategorySale from "../interfaces/CategorySale";
 import { readSales } from "../store/actions/salesFiguresActions";
 import "../styles/styles.scss";
+import { withSpinnerWhileLoading } from "./LoadingIndicator";
 
 function SalesFigures() {
   const dispatch = useDispatch();
@@ -14,6 +16,13 @@ function SalesFigures() {
   }, [dispatch]);
 
   const salesList: any = useSelector((state: any) => state.salesFigures);
+
+  const enhance = compose(
+    withState("loading", "setLoading", salesList.loading),
+    withSpinnerWhileLoading
+  );
+
+  const Spinner = enhance(() => <div className="Spinner"></div>);
 
   const barCategories: Array<string> = [];
   const barData: Array<number> = [];
@@ -80,8 +89,20 @@ function SalesFigures() {
   return (
     <div>
       <div className="frame">
-        <HighchartsReact highcharts={Highcharts} options={barOptions} />
-        <HighchartsReact highcharts={Highcharts} options={pieOptions} />
+        <Spinner />
+        {salesList.sales.length !== 0 ? (
+          <div>
+            <HighchartsReact highcharts={Highcharts} options={barOptions} />
+            <HighchartsReact highcharts={Highcharts} options={pieOptions} />
+          </div>
+        ) : (
+          <div></div>
+        )}
+        {salesList.error && !salesList.loading ? (
+          <div>Error at loading data</div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );
