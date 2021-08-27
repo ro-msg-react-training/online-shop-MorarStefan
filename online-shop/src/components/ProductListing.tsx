@@ -4,9 +4,10 @@ import { useHistory } from "react-router-dom";
 import Product from "../interfaces/Product";
 import ProductEditView from "./ProductEditView";
 import { readProducts } from "../store/actions/productListActions";
-import { useDispatch, useSelector } from "react-redux";
 import { compose, withState } from "recompose";
 import { withSpinnerWhileLoading } from "./LoadingIndicator";
+import { useAppDispatch, useAppSelector } from "../store";
+import { ProductListState } from "../interfaces/states/ProductListState";
 
 function ListItem(props: { value: Product }) {
   const product = props.value;
@@ -32,14 +33,16 @@ function ListItem(props: { value: Product }) {
 
 function ProductListing() {
   const [openCreateView, setOpenCreateView] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
 
   useEffect(() => {
     dispatch(readProducts());
   }, [dispatch]);
 
-  const productList: any = useSelector((state: any) => state.productList);
+  const productList: ProductListState = useAppSelector(
+    (state) => state.productList
+  );
 
   const enhance = compose(
     withState("loading", "setLoading", productList.loading),

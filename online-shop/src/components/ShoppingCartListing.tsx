@@ -4,8 +4,9 @@ import ShoppingCart from "../interfaces/ShoppingCart";
 import OrderProduct from "../interfaces/OrderProduct";
 import Order from "../interfaces/Order";
 import { DEFAULT_CUSTOMER_ID, DEFAULT_DELIVERY_ADDRESS_ID } from "../constants";
-import { useDispatch, useSelector } from "react-redux";
 import { submitOrder } from "../store/actions/shoppingCartActions";
+import { useAppDispatch, useAppSelector } from "../store";
+import { ShoppingCartState } from "../interfaces/states/ShoppingCartState";
 
 function prepareOrder(shoppingCart: Array<ShoppingCart>) {
   const orderProducts: Array<OrderProduct> = [];
@@ -52,8 +53,10 @@ function OrderNotification(props: { setButton: Function }) {
 function ShoppingCartListing() {
   const [createOrderButton, setCreateOrderButton] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
-  const orderInformation: any = useSelector((state: any) => state.shoppingCart);
+  const dispatch = useAppDispatch();
+  const orderInformation: ShoppingCartState = useAppSelector(
+    (state) => state.shoppingCart
+  );
 
   const listItems = orderInformation.shoppingCart.map((item: ShoppingCart) => (
     <ListItem key={item.productId} value={item} />

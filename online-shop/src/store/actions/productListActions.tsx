@@ -1,5 +1,5 @@
 import Product from "../../interfaces/Product";
-import Error from "../../interfaces/Error";
+import RequestError from "../../interfaces/RequestError";
 import PostProductDetail from "../../interfaces/PostProductDetail";
 
 export const READ_PRODUCTS_REQUEST = "READ_PRODUCTS_REQUEST";
@@ -13,6 +13,7 @@ export const ADD_PRODUCT_ERROR = "ADD_PRODUCT_ERROR";
 export const readProducts = () => {
   return {
     type: READ_PRODUCTS_REQUEST,
+    payload: {},
   };
 };
 
@@ -23,7 +24,7 @@ export const readProductsSuccess = (products: Array<Product>) => {
   };
 };
 
-export const readProductsError = (error: Error) => {
+export const readProductsError = (error: RequestError) => {
   return {
     type: READ_PRODUCTS_ERROR,
     payload: { error: error },
@@ -44,7 +45,7 @@ export const addProductSuccess = (product: Product) => {
   };
 };
 
-export const addProductError = (error: Error) => {
+export const addProductError = (error: RequestError) => {
   return {
     type: ADD_PRODUCT_ERROR,
     payload: { error: error },

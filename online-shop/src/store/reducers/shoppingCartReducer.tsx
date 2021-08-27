@@ -1,5 +1,7 @@
-import Error from "../../interfaces/Error";
+import Order from "../../interfaces/Order";
+import RequestError from "../../interfaces/RequestError";
 import ShoppingCart from "../../interfaces/ShoppingCart";
+import { ShoppingCartState } from "../../interfaces/states/ShoppingCartState";
 import {
   ADD_ITEM,
   SUBMIT_ORDER_ERROR,
@@ -7,21 +9,17 @@ import {
   SUBMIT_ORDER_SUCCESS,
 } from "../actions/shoppingCartActions";
 
-const initialState: {
-  shoppingCart: ShoppingCart[];
-  loading: boolean;
-  error: Error;
-} = {
+const initialState: ShoppingCartState = {
   shoppingCart: [],
   loading: false,
-  error: { message: "" },
+  error: null,
 };
 
 export default function shoppingCartReducer(
   state = initialState,
   action: {
     type: string;
-    payload: { item: ShoppingCart; error: Error };
+    payload: { item?: ShoppingCart; error?: RequestError; order?: Order };
   }
 ) {
   switch (action.type) {
@@ -46,6 +44,10 @@ export default function shoppingCartReducer(
       };
 
     case ADD_ITEM:
+      if (!action.payload.item) {
+        return;
+      }
+
       let isNewItem = true;
       for (const iterator of state.shoppingCart) {
         if (iterator.productId === action.payload.item.productId) {

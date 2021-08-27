@@ -8,6 +8,6 @@ export const getSales = async () => {
       return result.data;
     })
     .catch((error) => {
-      throw new Error(error.response);
+      throw new Error(error.message);
     });
 };

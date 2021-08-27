@@ -1,5 +1,6 @@
 import Product from "../../interfaces/Product";
 import ProductDetail from "../../interfaces/ProductDetail";
+import RequestError from "../../interfaces/RequestError";
 
 export const READ_PRODUCT_REQUEST = "READ_PRODUCT_REQUEST";
 export const READ_PRODUCT_SUCCESS = "READ_PRODUCT_SUCCESS";
@@ -27,7 +28,7 @@ export const readProductSuccess = (product: Product) => {
   };
 };
 
-export const readProductError = (error: Error) => {
+export const readProductError = (error: RequestError) => {
   return {
     type: READ_PRODUCT_ERROR,
     payload: { error: error },
@@ -48,7 +49,7 @@ export const editProductSuccess = (product: ProductDetail) => {
   };
 };
 
-export const editProductError = (error: Error) => {
+export const editProductError = (error: RequestError) => {
   return {
     type: EDIT_PRODUCT_ERROR,
     payload: { error: error },
@@ -68,7 +69,7 @@ export const deleteProductSuccess = () => {
   };
 };
 
-export const deleteProductError = (error: Error) => {
+export const deleteProductError = (error: RequestError) => {
   return {
     type: DELETE_PRODUCT_ERROR,
     payload: { error: error },

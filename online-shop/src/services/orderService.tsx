@@ -9,6 +9,6 @@ export const createOrder = async (order: Order) => {
       return result.data;
     })
     .catch((error) => {
-      throw new Error(error.response);
+      throw new Error(error.message);
     });
 };

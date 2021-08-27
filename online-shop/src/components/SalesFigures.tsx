@@ -1,21 +1,24 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { compose, withState } from "recompose";
 import CategorySale from "../interfaces/CategorySale";
+import { SalesFiguresState } from "../interfaces/states/SalesFiguresState";
+import { useAppDispatch, useAppSelector } from "../store";
 import { readSales } from "../store/actions/salesFiguresActions";
 import "../styles/styles.scss";
 import { withSpinnerWhileLoading } from "./LoadingIndicator";
 
 function SalesFigures() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(readSales());
   }, [dispatch]);
 
-  const salesList: any = useSelector((state: any) => state.salesFigures);
+  const salesList: SalesFiguresState = useAppSelector(
+    (state) => state.salesFigures
+  );
 
   const enhance = compose(
     withState("loading", "setLoading", salesList.loading),

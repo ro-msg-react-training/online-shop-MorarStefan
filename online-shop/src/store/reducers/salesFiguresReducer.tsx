@@ -1,11 +1,13 @@
 import CategorySale from "../../interfaces/CategorySale";
+import RequestError from "../../interfaces/RequestError";
+import { SalesFiguresState } from "../../interfaces/states/SalesFiguresState";
 import {
   READ_SALES_ERROR,
   READ_SALES_REQUEST,
   READ_SALES_SUCCESS,
 } from "../actions/salesFiguresActions";
 
-const initialState = {
+const initialState: SalesFiguresState = {
   sales: [],
   loading: false,
   error: null,
@@ -15,7 +17,7 @@ export default function salesFiguresReducer(
   state = initialState,
   action: {
     type: string;
-    payload: { sales: Array<CategorySale>; error: Error };
+    payload: { sales?: Array<CategorySale>; error?: RequestError };
   }
 ) {
   switch (action.type) {

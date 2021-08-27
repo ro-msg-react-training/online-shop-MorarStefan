@@ -1,4 +1,6 @@
 import Product from "../../interfaces/Product";
+import RequestError from "../../interfaces/RequestError";
+import { ProductListState } from "../../interfaces/states/ProductListState";
 
 import {
   READ_PRODUCTS_REQUEST,
@@ -9,7 +11,7 @@ import {
   ADD_PRODUCT_ERROR,
 } from "../actions/productListActions";
 
-const initialState = {
+const initialState: ProductListState = {
   products: [],
   loading: false,
   error: null,
@@ -19,7 +21,11 @@ export default function productListReducer(
   state = initialState,
   action: {
     type: string;
-    payload: { products: Array<Product>; product: Product; error: Error };
+    payload: {
+      products?: Array<Product>;
+      product?: Product;
+      error?: RequestError;
+    };
   }
 ) {
   switch (action.type) {

@@ -1,4 +1,6 @@
 import ProductDetail from "../../interfaces/ProductDetail";
+import RequestError from "../../interfaces/RequestError";
+import { ProductInformationState } from "../../interfaces/states/ProductInformationState";
 import {
   READ_PRODUCT_REQUEST,
   READ_PRODUCT_SUCCESS,
@@ -11,8 +13,24 @@ import {
   DELETE_PRODUCT_ERROR,
 } from "../actions/productInformationActions";
 
-const initialState = {
-  product: null,
+const emptyProduct: ProductDetail = {
+  _id: "",
+  name: "",
+  description: "",
+  category: {
+    name: "",
+    description: "",
+  },
+  supplier: {
+    name: "",
+  },
+  price: 0,
+  weight: 0,
+  imageUrl: "",
+};
+
+const initialState: ProductInformationState = {
+  product: emptyProduct,
   loading: false,
   error: null,
 };
@@ -21,7 +39,7 @@ export default function productInformationReducer(
   state = initialState,
   action: {
     type: string;
-    payload: { product: ProductDetail; error: Error };
+    payload: { product?: ProductDetail; error?: RequestError; id?: string };
   }
 ) {
   switch (action.type) {
@@ -75,7 +93,7 @@ export default function productInformationReducer(
       return {
         ...state,
         loading: false,
-        product: {},
+        product: emptyProduct,
       };
 
     case DELETE_PRODUCT_ERROR:

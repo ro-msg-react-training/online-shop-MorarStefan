@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "../styles/styles.scss";
 import { useHistory } from "react-router-dom";
 import ProductEditView from "./ProductEditView";
-import { useDispatch, useSelector } from "react-redux";
 import {
   deleteProduct,
   readProduct,
@@ -11,6 +10,8 @@ import { getProductImageUrl } from "../services/productService";
 import { addItem } from "../store/actions/shoppingCartActions";
 import { compose, withState } from "recompose";
 import { withSpinnerWhileLoading } from "./LoadingIndicator";
+import { useAppDispatch, useAppSelector } from "../store";
+import { ProductInformationState } from "../interfaces/states/ProductInformationState";
 
 function ShoppingNotification(props: {
   productName: string;
@@ -34,15 +35,15 @@ function ProductInformation(props: { match: { params: { id: string } } }) {
   const [imageUrl, setImageUrl] = useState<string>("");
   const history = useHistory();
   const [openEditView, setOpenEditView] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setImageUrl(getProductImageUrl(productId));
     dispatch(readProduct(productId));
   }, [dispatch, productId]);
 
-  const productInformation: any = useSelector(
-    (state: any) => state.productInformation
+  const productInformation: ProductInformationState = useAppSelector(
+    (state) => state.productInformation
   );
 
   const enhance = compose(
@@ -83,12 +84,10 @@ function ProductInformation(props: { match: { params: { id: string } } }) {
         <Spinner />
         <div className="columns">
           <div className="column is-three-fifths">
-            {!productInformation.product ? (
-              <p></p>
-            ) : productInformation.loading ? (
+            {productInformation.loading ? (
               <p></p>
             ) : productInformation.error ? (
-              <p>Error</p>
+              <p>Error at loading data</p>
             ) : (
               <div className="mb-6">
                 <h1 className="Header is-size-4 mb-5 has-text-weight-bold">

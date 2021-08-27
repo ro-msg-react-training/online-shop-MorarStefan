@@ -1,4 +1,5 @@
 import Order from "../../interfaces/Order";
+import RequestError from "../../interfaces/RequestError";
 import ShoppingCart from "../../interfaces/ShoppingCart";
 
 export const SUBMIT_ORDER_REQUEST = "SUBMIT_ORDER_REQUEST";
@@ -19,7 +20,7 @@ export const submitOrderSuccess = () => {
   };
 };
 
-export const submitOrderError = (error: Error) => {
+export const submitOrderError = (error: RequestError) => {
   return {
     type: SUBMIT_ORDER_ERROR,
     payload: { error: error },

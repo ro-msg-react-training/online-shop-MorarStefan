@@ -10,7 +10,7 @@ export const getProducts = async () => {
       return result.data;
     })
     .catch((error) => {
-      throw new Error(error.response);
+      throw new Error(error.message);
     });
 };
 
@@ -21,7 +21,7 @@ export const getProduct = async (id: string) => {
       return result.data;
     })
     .catch((error) => {
-      throw new Error(error.response);
+      throw new Error(error.message);
     });
 };
 
@@ -32,7 +32,7 @@ export const createProduct = async (product: PostProductDetail) => {
       return result.data;
     })
     .catch((error) => {
-      throw new Error(error.response);
+      throw new Error(error.message);
     });
 };
 
@@ -43,7 +43,7 @@ export const updateProduct = async (product: ProductDetail) => {
       return result.data;
     })
     .catch((error) => {
-      throw new Error(error.response);
+      throw new Error(error.message);
     });
 };
 
@@ -54,7 +54,7 @@ export const removeProduct = async (id: string) => {
       return result.data;
     })
     .catch((error) => {
-      throw new Error(error.response);
+      throw new Error(error.message);
     });
 };
 
